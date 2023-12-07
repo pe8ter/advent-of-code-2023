@@ -1,0 +1,14 @@
+{
+  "name": "advent-of-code-2023",
+  "version": "1.0.0",
+  "author": "Peter Safranek <pe8ter@mac.com> (https://pe8ter.com)",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "private": true,
+  "engines": {
+    "node": "~20",
+    "npm": "~10"
+  },
+  "type": "module",
+  "scripts": {},
+  "dependencies": {}
+}
