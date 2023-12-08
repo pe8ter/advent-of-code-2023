@@ -13,4 +13,6 @@ node ./src/day-02/main-2.mjs --input=./src/day-02/input.txt
 
 node ./src/day-03/main-1.mjs --input=./src/day-03/sample.txt
 node ./src/day-03/main-1.mjs --input=./src/day-03/input.txt
+node ./src/day-03/main-2.mjs --input=./src/day-03/sample.txt
+node ./src/day-03/main-2.mjs --input=./src/day-03/input.txt
 ```
