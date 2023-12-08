@@ -5,53 +5,27 @@ import { getArgs } from '../utils/args.mjs';
 
 /**
  * Extract the "calibration value" for an input line. This looks for both numerical digits and spelled numbers "one"
- * through "nine". The first and last of these numbers are combined to become the calibration value.
+ * through "nine". We combine the first and last of these numbers to form the calibration value.
  *
  * Example: "sevenlsg6hei2oneg3is" would be 73. We extract the "seven" and 3, then combine them to 73.
  *
  * Note that there are tricky cases like "oneight" that share a common letter. We must parse this as both 1 and 8.
  * @param {string} line One line of text from the input file.
- * @returns Calibration value for the line.
+ * @returns {number} Calibration value for the line.
  */
 
 function extractCalibrationValueForLine(line) {
-    const numRegex = /^[1-9]$/;
+    const numRegex = /(?=(?<digit>one|two|three|four|five|six|seven|eight|nine|\d))/g;
     const digitMap = {
-        one: 1,
-        two: 2,
-        three: 3,
-        four: 4,
-        five: 5,
-        six: 6,
-        seven: 7,
-        eight: 8,
-        nine: 9,
+        one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+        1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
     };
 
-    const digitList = [];
-
-    for (let i = 0; i < line.length; ++i) {
-        const c = line.charAt(i);
-
-        if (numRegex.test(c)) {
-            digitList.push(c);
-            continue;
-        }
-
-        const partialLine = line.slice(i);
-
-        for (const entry of Object.entries(digitMap)) {
-            const spelledDigit = entry[0];
-            const numericalDigit = entry[1];
-            if (partialLine.startsWith(spelledDigit)) {
-                digitList.push(numericalDigit);
-                break;
-            }
-        }
-    }
+    const matchIterator = line.matchAll(numRegex);
+    const digitList = Array.from(matchIterator).map(iter => digitMap[iter.groups.digit]);
 
     if (digitList.length === 0) {
-        return 0;
+        throw new Error(`Line of text contained no calibration values: ${line}`);
     }
 
     const firstDigit = digitList[0];
